@@ -6,7 +6,7 @@ function AuthProvider(props) {
   setTimeout(() => {
     localStorage.removeItem("Token");
   }, 300000);
-  const [token, setToken] = useState(intialToken);
+  const [token, setToken] = useState("");
   const userIsLoggedIn = !!token;
   const LoginHandler = (token) => {
     console.log(token);
@@ -20,9 +20,9 @@ function AuthProvider(props) {
     login: LoginHandler,
   };
   return (
-    <AuthContext.AuthProvider value={contextValue}>
+    <AuthContext.Provider value={contextValue}>
       {props.children}
-    </AuthContext.AuthProvider>
+    </AuthContext.Provider>
   );
 }
 

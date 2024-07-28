@@ -32,8 +32,8 @@ function Signin() {
       if (data.ok) {
         const authData = await data.json();
         console.log(authData);
-        console.log(ctx.login);
-        ctx.login(authData);
+        //  console.log(ctx.login);
+        ctx.login(authData.idToken);
       } else {
         const errorData = await response.json();
         throw new Error(errorData.error.message || "Authentication failed");
