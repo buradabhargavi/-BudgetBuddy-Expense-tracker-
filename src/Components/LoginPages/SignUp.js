@@ -34,6 +34,7 @@ function SignUp() {
       errorMessage = response.error.message;
       alert(errorMessage);
     }
+
     return response;
   }
   return (
