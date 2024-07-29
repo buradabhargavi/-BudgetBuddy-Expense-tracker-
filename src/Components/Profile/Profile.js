@@ -15,7 +15,7 @@ function Profile() {
   const fullName = useRef();
   const profileURL = useRef();
   const ctx = useContext(AuthContext);
-  console.log(ctx);
+  console.log("ctx is", ctx);
 
   const editProfile = async (e) => {
     e.preventDefault();

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -8,12 +8,11 @@ import {
 import SignUp from "./Components/LoginPages/SignUp";
 import Signin from "./Components/LoginPages/Signin";
 import Profile from "./Components/Profile/Profile";
+import Home from "./Components/Home/Home";
 import AuthProvider from "./Store/AuthProvider";
-import AuthContext from "./Store/Auth-context"; // Import AuthContext for authentication check
+import AuthProtect from "./Components/Pages/AuthRouter/AuthProtect";
 
 function App() {
-  const { isLoggedIn } = useContext(AuthContext); // Use context to get authentication status
-
   return (
     <AuthProvider>
       <Router>
@@ -21,11 +20,24 @@ function App() {
           <Routes>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<Signin />} />
-            <Route path="/pro" element={<Profile />} />
+            <Route
+              path="/home"
+              element={
+                <AuthProtect>
+                  <Home />
+                </AuthProtect>
+              }
+            />
+
             <Route
               path="/profile"
-              element={isLoggedIn ? <Profile /> : <Navigate to="/signin" />}
+              element={
+                <AuthProtect>
+                  <Profile />
+                </AuthProtect>
+              }
             />
+
             <Route path="/" element={<Navigate to="/signin" />} />
           </Routes>
         </div>

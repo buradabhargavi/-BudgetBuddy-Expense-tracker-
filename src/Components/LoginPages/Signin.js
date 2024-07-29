@@ -1,11 +1,13 @@
 import React, { useContext, useRef } from "react";
 import { Box, TextField, Button, Typography } from "@mui/material";
 import AuthContext from "../../Store/Auth-context";
+import { useNavigate } from "react-router-dom";
 
 function Signin() {
   const userEmailref = useRef();
   const userPasswordref = useRef();
   const ctx = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,6 +36,7 @@ function Signin() {
         console.log(authData);
         //  console.log(ctx.login);
         ctx.login(authData.idToken);
+        navigate("/home");
       } else {
         const errorData = await response.json();
         throw new Error(errorData.error.message || "Authentication failed");
