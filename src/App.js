@@ -12,6 +12,7 @@ import Home from "./Components/Home/Home";
 import AuthProvider from "./Store/AuthProvider";
 import AuthProtect from "./Components/Pages/AuthRouter/AuthProtect";
 import Display from "./Components/Profile/Display";
+import AuthLogin from "./Components/Pages/AuthRouter/AuthLogin";
 
 function App() {
   return (
@@ -19,22 +20,18 @@ function App() {
       <Router>
         <div className="App">
           <Routes>
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/signin" element={<Signin />} />
+            <Route element={<AuthLogin />}>
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/signin" element={<Signin />} />
+            </Route>
             <Route
-              path="/home"
+              path="/*"
               element={
                 <AuthProtect>
-                  <Home />
-                </AuthProtect>
-              }
-            />
-
-            <Route
-              path="/profile"
-              element={
-                <AuthProtect>
-                  <Profile />
+                  <Routes>
+                    <Route path="/home" element={<Home />} />
+                    <Route path="/profile" element={<Profile />} />
+                  </Routes>
                 </AuthProtect>
               }
             />
@@ -47,7 +44,7 @@ function App() {
               }
             />
 
-            <Route path="/" element={<Navigate to="/signin" />} />
+            <Route path="/" element={<Navigate to="/Home" />} />
           </Routes>
         </div>
       </Router>
