@@ -1,11 +1,13 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const nameRef = useRef();
   const emailRef = useRef();
   const PasswordRef = useRef();
   const confirmPasswordRef = useRef();
+  const navigate = useNavigate();
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -32,9 +34,9 @@ function SignUp() {
     if (response && response.error && response.error.message) {
       let errorMessage = "Authentication failed";
       errorMessage = response.error.message;
-      alert(errorMessage);
+      return alert(errorMessage);
     }
-
+    navigate("/home");
     return response;
   }
   return (
