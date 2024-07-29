@@ -93,7 +93,9 @@ function Signin() {
           new user?
           <NavLink to={"/signup"}>create an account</NavLink>
         </Typography>
-        <Typography>forgot password?</Typography>
+        <Typography>
+          <NavLink to="/forgotPassword">forgot password?</NavLink>
+        </Typography>
       </Box>
     </Box>
   );

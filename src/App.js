@@ -12,6 +12,7 @@ import AuthProvider from "./Store/AuthProvider";
 import AuthProtect from "./Components/Pages/AuthRouter/AuthProtect";
 import AuthLogin from "./Components/Pages/AuthRouter/AuthLogin";
 import Profile from "./Components/Profile/Profile";
+import ForgotPassword from "./Components/Pages/ForgotPassword";
 
 function App() {
   return (
@@ -34,7 +35,7 @@ function App() {
                 </AuthProtect>
               }
             />
-
+            <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/" element={<Navigate to="/Home" />} />
           </Routes>
         </div>
