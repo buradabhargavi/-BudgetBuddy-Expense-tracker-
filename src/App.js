@@ -11,6 +11,7 @@ import Profile from "./Components/Profile/Profile";
 import Home from "./Components/Home/Home";
 import AuthProvider from "./Store/AuthProvider";
 import AuthProtect from "./Components/Pages/AuthRouter/AuthProtect";
+import Display from "./Components/Profile/Display";
 
 function App() {
   return (
@@ -34,6 +35,14 @@ function App() {
               element={
                 <AuthProtect>
                   <Profile />
+                </AuthProtect>
+              }
+            />
+            <Route
+              path="/display"
+              element={
+                <AuthProtect>
+                  <Display />
                 </AuthProtect>
               }
             />
