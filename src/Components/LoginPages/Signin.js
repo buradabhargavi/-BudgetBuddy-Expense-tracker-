@@ -33,7 +33,7 @@ function Signin() {
       const data = response;
       if (data.ok) {
         const authData = await data.json();
-        console.log(authData.idToken);
+        console.log(authData);
         //  console.log(ctx.login);
         ctx.login(authData.idToken);
         navigate("/home");

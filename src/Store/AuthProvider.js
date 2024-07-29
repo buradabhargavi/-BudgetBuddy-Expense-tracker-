@@ -14,14 +14,23 @@ function AuthProvider(props) {
   const LoginHandler = (token) => {
     // console.log(token);
     localStorage.setItem("Token", token);
+
     // localStorage.setItem("email", email);
     setToken(token);
+  };
+  const LogoutHandler = (token) => {
+    // console.log(token);
+    localStorage.removeItem("Token");
+
+    // localStorage.setItem("email", email);
+    setToken("");
   };
 
   const contextValue = {
     token,
     isLoggedIn: userIsLoggedIn,
     login: LoginHandler,
+    logout: LogoutHandler,
   };
   return (
     <AuthContext.Provider value={contextValue}>
