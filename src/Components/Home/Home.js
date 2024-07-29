@@ -1,16 +1,17 @@
 import { Box, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
-import VerifyEmail from "../LoginPages/VerifyEmail";
 function Home() {
   return (
     <>
-      <Box>
+      <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
         <Typography>welcome to main page</Typography>
-        <NavLink to={"/Profile"}>update your profile</NavLink>
+        <Typography>
+          {" "}
+          your profile is inComplete{"   "}
+          <NavLink to={"/Profile"}>update your profile</NavLink>
+        </Typography>
       </Box>
-      <Box>
-        <VerifyEmail />
-      </Box>
+      <Box></Box>
     </>
   );
 }

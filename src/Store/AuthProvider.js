@@ -14,6 +14,7 @@ function AuthProvider(props) {
   const LoginHandler = (token) => {
     // console.log(token);
     localStorage.setItem("Token", token);
+    // localStorage.setItem("email", email);
     setToken(token);
   };
 

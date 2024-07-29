@@ -7,12 +7,11 @@ import {
 } from "react-router-dom";
 import SignUp from "./Components/LoginPages/SignUp";
 import Signin from "./Components/LoginPages/Signin";
-import Profile from "./Components/Profile/Profile";
 import Home from "./Components/Home/Home";
 import AuthProvider from "./Store/AuthProvider";
 import AuthProtect from "./Components/Pages/AuthRouter/AuthProtect";
-import Display from "./Components/Profile/Display";
 import AuthLogin from "./Components/Pages/AuthRouter/AuthLogin";
+import Profile from "./Components/Profile/Profile";
 
 function App() {
   return (
@@ -32,14 +31,6 @@ function App() {
                     <Route path="/home" element={<Home />} />
                     <Route path="/profile" element={<Profile />} />
                   </Routes>
-                </AuthProtect>
-              }
-            />
-            <Route
-              path="/display"
-              element={
-                <AuthProtect>
-                  <Display />
                 </AuthProtect>
               }
             />

@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState, useEffect } from "react";
 import {
   Box,
   TextField,
@@ -15,8 +15,50 @@ function Profile() {
   const fullName = useRef();
   const profileURL = useRef();
   const ctx = useContext(AuthContext);
-  console.log("ctx is", ctx);
+  const [userData, setUserData] = useState({ displayName: "", photoUrl: "" });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
+  // Fetch user data when component mounts
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(
+          "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyAq3UUsh6wr0Dnf9bCJBO7TfxPTIzPkPbY",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ idToken: ctx.token }),
+          }
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(
+            `HTTP error! status: ${response.status}, message: ${errorData.error.message}`
+          );
+        }
+
+        const data = await response.json();
+        setUserData(data.users[0] || { displayName: "", photoUrl: "" });
+      } catch (error) {
+        setError(`Error fetching user data: ${error.message}`);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (ctx.token) {
+      fetchUserData();
+    } else {
+      setError("No token available");
+      setLoading(false);
+    }
+  }, [ctx.token]);
+
+  // Handle profile update
   const editProfile = async (e) => {
     e.preventDefault();
     const userName = fullName.current.value;
@@ -40,14 +82,23 @@ function Profile() {
       );
 
       if (response.ok) {
-        alert("data updated successfully");
+        alert("Data updated successfully");
       } else {
-        throw new Error("profile update failed");
+        throw new Error("Profile update failed");
       }
     } catch (error) {
       console.error(error);
+      alert(`Error updating profile: ${error.message}`);
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <Box sx={{ padding: "20px", maxWidth: "400px", margin: "auto" }}>
@@ -59,7 +110,7 @@ function Profile() {
         }}
       >
         <Typography variant="body1" sx={{ color: "red" }}>
-          Your profile is 64% completed. Complete the remaining fields for
+          Your profile is 64% completed. Complete the remaining fields for a
           better understanding.
         </Typography>
       </Box>
@@ -74,6 +125,7 @@ function Profile() {
               variant="outlined"
               inputRef={fullName}
               fullWidth
+              defaultValue={userData.displayName}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -90,6 +142,7 @@ function Profile() {
               variant="outlined"
               inputRef={profileURL}
               fullWidth
+              defaultValue={userData.photoUrl}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">

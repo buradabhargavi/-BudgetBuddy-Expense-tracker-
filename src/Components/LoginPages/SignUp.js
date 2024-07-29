@@ -1,6 +1,6 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function SignUp() {
   const nameRef = useRef();
@@ -97,6 +97,10 @@ function SignUp() {
           Sign up
         </Button>
       </form>
+      <Box sx={{ display: "flex", gap: "10px" }}>
+        <Typography>Already have an account?</Typography>
+        <NavLink to="/signin">Login</NavLink>
+      </Box>
     </Box>
   );
 }

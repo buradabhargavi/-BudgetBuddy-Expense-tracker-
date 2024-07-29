@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from "react";
 import { Box, TextField, Button, Typography } from "@mui/material";
 import AuthContext from "../../Store/Auth-context";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function Signin() {
   const userEmailref = useRef();
@@ -33,7 +33,7 @@ function Signin() {
       const data = response;
       if (data.ok) {
         const authData = await data.json();
-        console.log(authData);
+        console.log(authData.idToken);
         //  console.log(ctx.login);
         ctx.login(authData.idToken);
         navigate("/home");
@@ -88,6 +88,13 @@ function Signin() {
           Login
         </Button>
       </form>
+      <Box sx={{ display: "flex", gap: "20px" }}>
+        <Typography>
+          new user?
+          <NavLink to={"/signup"}>create an account</NavLink>
+        </Typography>
+        <Typography>forgot password?</Typography>
+      </Box>
     </Box>
   );
 }
