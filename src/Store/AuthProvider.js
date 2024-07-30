@@ -3,6 +3,7 @@ import AuthContext from "./Auth-context";
 
 function AuthProvider(props) {
   const intialToken = localStorage.getItem("Token");
+  const [user, setUser] = useState("");
 
   //console.log(intialToken);
   setTimeout(() => {
@@ -10,19 +11,16 @@ function AuthProvider(props) {
   }, 300000);
   const [token, setToken] = useState(intialToken);
   const userIsLoggedIn = !!token;
-  // console.log(userIsLoggedIn);
-  const LoginHandler = (token) => {
-    // console.log(token);
-    localStorage.setItem("Token", token);
 
-    // localStorage.setItem("email", email);
-    setToken(token);
+  const LoginHandler = (authData) => {
+    localStorage.setItem("Token", authData.idToken);
+    setToken(authData.idToken);
+    setUser(authData);
   };
+
   const LogoutHandler = (token) => {
-    // console.log(token);
     localStorage.removeItem("Token");
 
-    // localStorage.setItem("email", email);
     setToken("");
   };
 
@@ -31,6 +29,7 @@ function AuthProvider(props) {
     isLoggedIn: userIsLoggedIn,
     login: LoginHandler,
     logout: LogoutHandler,
+    user: user,
   };
   return (
     <AuthContext.Provider value={contextValue}>

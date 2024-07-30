@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
+
 import {
   Box,
   TextField,
@@ -9,19 +10,29 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
+import ExpenseContext from "../../Store/ExpensesContext";
 
 function ExpenseForm() {
   const priceRef = useRef();
   const descriptionRef = useRef();
   const [selectedCategory, setSelectedCategory] = useState("Other");
   const [showExpense, setShowExpense] = useState(false);
-  const [expenses, setExpenses] = useState([]);
+
+  const ctx = useContext(ExpenseContext);
 
   const handleSelectChange = (event) => {
     setSelectedCategory(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const toggleAddExpense = () => {
+    setShowExpense((prev) => !prev);
+  };
+
+  const cancelHandler = () => {
+    setShowExpense(false);
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const enteredPrice = priceRef.current.value;
@@ -33,20 +44,9 @@ function ExpenseForm() {
       expenseCategory: selectedCategory,
     };
 
-    setExpenses((prev) => [...prev, expenseData]);
-
-    //  console.log(expenses);
-
+    ctx.addExpense(expenseData);
     priceRef.current.value = "";
     descriptionRef.current.value = "";
-    setSelectedCategory("Other");
-  };
-
-  const toggleAddExpense = () => {
-    setShowExpense((prev) => !prev);
-  };
-
-  const cancelHandler = () => {
     setShowExpense(false);
   };
 
@@ -98,7 +98,6 @@ function ExpenseForm() {
               inputRef={descriptionRef}
               sx={{ flex: 1 }}
             />
-
             <FormControl fullWidth sx={{ flex: 1 }}>
               <InputLabel>Category</InputLabel>
               <Select
@@ -127,7 +126,7 @@ function ExpenseForm() {
                 color="primary"
                 sx={{ flex: 0.3 }}
               >
-                Submit
+                {"Submit"}
               </Button>
               <Button
                 type="button"

@@ -35,7 +35,7 @@ function Signin() {
         const authData = await data.json();
         console.log(authData);
         //  console.log(ctx.login);
-        ctx.login(authData.idToken);
+        ctx.login(authData);
         navigate("/home");
       } else {
         const errorData = await response.json();

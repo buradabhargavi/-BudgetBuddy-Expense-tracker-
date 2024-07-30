@@ -13,33 +13,36 @@ import AuthProtect from "./Components/Pages/AuthRouter/AuthProtect";
 import AuthLogin from "./Components/Pages/AuthRouter/AuthLogin";
 import Profile from "./Components/Profile/Profile";
 import ForgotPassword from "./Components/Pages/ForgotPassword";
+import ExpensesProvider from "./Store/ExpensesProvider";
 
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <div className="App">
-          <Routes>
-            <Route element={<AuthLogin />}>
-              <Route path="/signup" element={<SignUp />} />
-              <Route path="/signin" element={<Signin />} />
-            </Route>
-            <Route
-              path="/*"
-              element={
-                <AuthProtect>
-                  <Routes>
-                    <Route path="/home" element={<Home />} />
-                    <Route path="/profile" element={<Profile />} />
-                  </Routes>
-                </AuthProtect>
-              }
-            />
-            <Route path="/forgotPassword" element={<ForgotPassword />} />
-            <Route path="/" element={<Navigate to="/Home" />} />
-          </Routes>
-        </div>
-      </Router>
+      <ExpensesProvider>
+        <Router>
+          <div className="App">
+            <Routes>
+              <Route element={<AuthLogin />}>
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/signin" element={<Signin />} />
+              </Route>
+              <Route
+                path="/*"
+                element={
+                  <AuthProtect>
+                    <Routes>
+                      <Route path="/home" element={<Home />} />
+                      <Route path="/profile" element={<Profile />} />
+                    </Routes>
+                  </AuthProtect>
+                }
+              />
+              <Route path="/forgotPassword" element={<ForgotPassword />} />
+              <Route path="/" element={<Navigate to="/Home" />} />
+            </Routes>
+          </div>
+        </Router>
+      </ExpensesProvider>
     </AuthProvider>
   );
 }
