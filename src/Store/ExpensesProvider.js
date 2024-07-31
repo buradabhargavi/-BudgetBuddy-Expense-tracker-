@@ -9,11 +9,11 @@ const ExpensesProvider = (props) => {
 
   const ctx = useContext(AuthContext);
 
-  const user = ctx.user.email;
+  const user = ctx.user;
+  // console.log(user);
 
-  //console.log(user);
-
-  const userId = user.substring(0, user.indexOf("@"));
+  const userId = user ? user.substring(0, user.indexOf("@")) : null;
+  // const userId = 12;
 
   useEffect(() => {
     if (userId) {

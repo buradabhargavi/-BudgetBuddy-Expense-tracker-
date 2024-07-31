@@ -3,7 +3,9 @@ import AuthContext from "./Auth-context";
 
 function AuthProvider(props) {
   const intialToken = localStorage.getItem("Token");
-  const [user, setUser] = useState("");
+  const initialUserData = localStorage.getItem("email");
+  console.log(initialUserData);
+  const [user, setUser] = useState(initialUserData || "");
 
   //console.log(intialToken);
   setTimeout(() => {
@@ -14,8 +16,10 @@ function AuthProvider(props) {
 
   const LoginHandler = (authData) => {
     localStorage.setItem("Token", authData.idToken);
+    localStorage.setItem("email", authData.email);
     setToken(authData.idToken);
-    setUser(authData);
+
+    setUser(authData.email);
   };
 
   const LogoutHandler = (token) => {
