@@ -1,9 +1,23 @@
-import React, { useContext } from "react";
-import { List, ListItem, Typography, Divider, Box, Paper } from "@mui/material";
+import React, { useState, useContext } from "react";
+import {
+  List,
+  ListItem,
+  Typography,
+  Divider,
+  Box,
+  Paper,
+  Button,
+} from "@mui/material";
 import ExpenseContext from "../../Store/ExpensesContext";
-
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditExpenseForm from "./EditExpenseFrom";
 const ExpenseList = () => {
-  const { expenses, loading, error } = useContext(ExpenseContext);
+  const { expenses, loading, error, deleteExpense, editExpense } =
+    useContext(ExpenseContext);
+
+  const [open, setOpen] = useState(false);
+  const [selectedExpense, setSelectedExpense] = useState(null);
 
   if (loading) {
     return <Typography>Loading...</Typography>;
@@ -12,6 +26,25 @@ const ExpenseList = () => {
   if (error) {
     return <Typography color="error">Error: {error}</Typography>;
   }
+
+  const handleEditClick = (expense) => {
+    setSelectedExpense(expense);
+    setOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setOpen(false);
+    setSelectedExpense(null);
+  };
+
+  const handleFormSubmit = (id, updatedExpense) => {
+    editExpense(id, updatedExpense);
+    handleDialogClose();
+  };
+
+  const handleDeleteClick = (expenseId) => {
+    deleteExpense(expenseId);
+  };
 
   return (
     <Box
@@ -46,12 +79,39 @@ const ExpenseList = () => {
                 <Typography variant="h6" sx={{ flex: 1 }}>
                   {expense.expenseCategory}
                 </Typography>
+                <Box sx={{ display: "flex", gap: "10px", flex: 1 }}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<EditIcon />}
+                    onClick={() => handleEditClick(expense)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    startIcon={<DeleteIcon />}
+                    onClick={() => handleDeleteClick(expense.id)}
+                  >
+                    Delete
+                  </Button>
+                </Box>
               </ListItem>
               <Divider />
             </React.Fragment>
           ))}
         </List>
       </Paper>
+
+      {selectedExpense && (
+        <EditExpenseForm
+          open={open}
+          onClose={handleDialogClose}
+          onSubmit={handleFormSubmit}
+          expense={selectedExpense}
+        />
+      )}
     </Box>
   );
 };

@@ -10,10 +10,10 @@ const ExpensesProvider = (props) => {
   const ctx = useContext(AuthContext);
 
   const user = ctx.user;
-  // console.log(user);
+
+  //console.log(user);
 
   const userId = user ? user.substring(0, user.indexOf("@")) : null;
-  // const userId = 12;
 
   useEffect(() => {
     if (userId) {
@@ -81,9 +81,73 @@ const ExpensesProvider = (props) => {
     }
   };
 
+  const editExpense = async (expenseId, editedExpense) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(
+        `https://expense-tracker-fb903-default-rtdb.firebaseio.com/Expenses/${userId}/${expenseId}.json`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(editedExpense),
+        }
+      );
+
+      // Debugging: Check response status and text
+      const responseText = await response.text(); // Read the response text
+      console.log("Response status:", response);
+      console.log("Response text:", responseText);
+
+      if (!response.ok) {
+        throw new Error(`Failed to update expense. Status: ${response}`);
+      }
+
+      alert("Expense updated successfully");
+      // Optionally, update local state if needed
+      setExpenses((prevExpenses) =>
+        prevExpenses.map((expense) =>
+          expense.id === expenseId ? { ...expense, ...editedExpense } : expense
+        )
+      );
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteExpense = async (expenseId) => {
+    try {
+      const response = await fetch(
+        `https://expense-tracker-fb903-default-rtdb.firebaseio.com/Expenses/${userId}/${expenseId}.json `,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`Expense cannot be deleted`);
+      }
+      setExpenses((prevExpenses) =>
+        prevExpenses.filter((expense) => expense.id !== expenseId)
+      );
+      alert("Expense deleted successfully");
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   const value = {
     expenses,
     addExpense,
+    editExpense,
+    deleteExpense,
     loading,
     error,
   };
