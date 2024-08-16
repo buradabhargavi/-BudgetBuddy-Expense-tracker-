@@ -10,7 +10,8 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
-import ExpenseContext from "../../Store/ExpensesContext";
+import { useDispatch, useSelector } from "react-redux";
+import { createExpense } from "../../ReduxStore/ExpenseSlice";
 
 function ExpenseForm() {
   const priceRef = useRef();
@@ -18,7 +19,9 @@ function ExpenseForm() {
   const [selectedCategory, setSelectedCategory] = useState("Other");
   const [showExpense, setShowExpense] = useState(false);
 
-  const ctx = useContext(ExpenseContext);
+  const dispatch = useDispatch();
+
+  const userId = useSelector((state) => state.auth.user?.split("@")[0] || "");
 
   const handleSelectChange = (event) => {
     setSelectedCategory(event.target.value);
@@ -43,8 +46,8 @@ function ExpenseForm() {
       expenseDescription: enteredDescription,
       expenseCategory: selectedCategory,
     };
+    dispatch(createExpense({ userId, expenseData }));
 
-    ctx.addExpense(expenseData);
     priceRef.current.value = "";
     descriptionRef.current.value = "";
     setShowExpense(false);

@@ -1,12 +1,15 @@
-import React, { useContext, useRef } from "react";
+import React, { useRef } from "react";
 import { Box, TextField, Button, Typography } from "@mui/material";
-import AuthContext from "../../Store/Auth-context";
 import { NavLink, useNavigate } from "react-router-dom";
+import { authActions } from "../../ReduxStore/AuthSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function Signin() {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  console.log("So the redux value is: ", isLoggedIn);
   const userEmailref = useRef();
   const userPasswordref = useRef();
-  const ctx = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -34,9 +37,12 @@ function Signin() {
       if (data.ok) {
         const authData = await data.json();
         console.log(authData);
-        //  console.log(ctx.login);
-        ctx.login(authData);
-        navigate("/home");
+
+        dispatch(authActions.login(authData));
+        localStorage.setItem("email", authData.email);
+        localStorage.setItem("token", authData.idToken);
+
+        navigate("/Home");
       } else {
         const errorData = await response.json();
         throw new Error(errorData.error.message || "Authentication failed");
@@ -61,8 +67,7 @@ function Signin() {
         onSubmit={handleSubmit}
         style={{
           display: "flex",
-          /*   border: "1px solid black",
-          padding: "5% 2%", */
+
           flexDirection: "column",
           gap: "20px",
           width: "25%",

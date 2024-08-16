@@ -1,24 +1,20 @@
 import { Box, Typography, Button } from "@mui/material";
-import { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../ReduxStore/AuthSlice";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../../Store/Auth-context";
+
 function MainNav() {
-  const ctx = useContext(AuthContext);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const LogoutHandler = () => {
-    ctx.logout();
-    navigate("/signin");
+    dispatch(authActions.logout());
+    navigate("/");
   };
   return (
     <>
       <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
         <Typography>welcome to main page</Typography>
-        <Typography>
-          {" "}
-          your profile is inComplete{"   "}
-          <NavLink to={"/Profile"}>update your profile</NavLink>
-        </Typography>
+        <Typography> your profile is inComplete{"   "}</Typography>
         <Button variant="contained" onClick={LogoutHandler}>
           LogOut
         </Button>

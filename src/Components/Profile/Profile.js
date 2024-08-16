@@ -9,17 +9,21 @@ import {
 } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import PublicIcon from "@mui/icons-material/Public";
-import AuthContext from "../../Store/Auth-context";
+
+import { useSelector } from "react-redux";
 
 function Profile() {
   const fullName = useRef();
   const profileURL = useRef();
-  const ctx = useContext(AuthContext);
   const [userData, setUserData] = useState({ displayName: "", photoUrl: "" });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Fetch user data when component mounts
+  // const ctx = useContext(AuthContext);
+
+  const token = useSelector((state) => state.auth.token);
+  console.log(token);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -30,7 +34,7 @@ function Profile() {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ idToken: ctx.token }),
+            body: JSON.stringify({ idToken: token }),
           }
         );
 
@@ -50,15 +54,14 @@ function Profile() {
       }
     };
 
-    if (ctx.token) {
+    if (token) {
       fetchUserData();
     } else {
       setError("No token available");
       setLoading(false);
     }
-  }, [ctx.token]);
+  }, [token]);
 
-  // Handle profile update
   const editProfile = async (e) => {
     e.preventDefault();
     const userName = fullName.current.value;
@@ -70,7 +73,7 @@ function Profile() {
         {
           method: "POST",
           body: JSON.stringify({
-            idToken: ctx.token,
+            idToken: token,
             photoUrl: profile,
             displayName: userName,
             returnSecureToken: true,
