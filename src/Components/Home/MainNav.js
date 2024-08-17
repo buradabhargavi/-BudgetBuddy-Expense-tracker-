@@ -34,6 +34,8 @@ function MainNav() {
 
   const LogoutHandler = () => {
     dispatch(authActions.logout());
+    localStorage.removeItem("email");
+    localStorage.removeItem("token");
     navigate("/");
   };
 

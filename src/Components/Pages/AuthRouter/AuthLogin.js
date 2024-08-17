@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const AuthLogin = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  // console.log("is loggedin:", isLoggedIn);
+  console.log("is loggedin:", isLoggedIn);
 
   if (isLoggedIn) {
     return <Navigate to="/" />;
