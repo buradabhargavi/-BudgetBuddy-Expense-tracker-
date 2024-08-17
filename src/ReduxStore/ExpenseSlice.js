@@ -14,11 +14,14 @@ export const fetchExpenses = createAsyncThunk(
     );
     if (!response.ok) throw new Error("Failed to fetch expenses");
     const data = await response.json();
+    console.log(data);
     if (data) {
       return Object.keys(data).map((key) => ({
         id: key,
         ...data[key],
       }));
+    } else {
+      return [];
     }
   }
 );
@@ -88,6 +91,9 @@ const expenseSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(createExpense.fulfilled, (state, action) => {
+        console.log("State before push:", state.expenses);
+        console.log("Payload:", action.payload);
+
         state.expenses.push(action.payload);
       })
       .addCase(updateExpense.fulfilled, (state, action) => {

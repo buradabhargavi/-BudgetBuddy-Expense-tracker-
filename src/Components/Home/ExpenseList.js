@@ -118,6 +118,9 @@ const ExpenseList = () => {
                   <Typography variant="h6" sx={{ flex: 1 }}>
                     {expense.expenseCategory}
                   </Typography>
+                  <Typography variant="h6" sx={{ flex: 1 }}>
+                    {expense.enteredDate}
+                  </Typography>
                   <Box sx={{ display: "flex", gap: "10px", flex: 1 }}>
                     <Button
                       variant="contained"

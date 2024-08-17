@@ -16,6 +16,7 @@ import { createExpense } from "../../ReduxStore/ExpenseSlice";
 function ExpenseForm() {
   const priceRef = useRef();
   const descriptionRef = useRef();
+  const dateRef = useRef(null);
   const [selectedCategory, setSelectedCategory] = useState("Other");
   const [showExpense, setShowExpense] = useState(false);
   const { isDarkMode } = useSelector((state) => state.UI);
@@ -41,11 +42,13 @@ function ExpenseForm() {
 
     const enteredPrice = priceRef.current.value;
     const enteredDescription = descriptionRef.current.value;
+    const enteredDate = dateRef.current.value;
 
     const expenseData = {
       expensePrice: enteredPrice,
       expenseDescription: enteredDescription,
       expenseCategory: selectedCategory,
+      enteredDate,
     };
 
     dispatch(createExpense({ userId, expenseData }));
@@ -108,6 +111,13 @@ function ExpenseForm() {
               fullWidth
               variant="outlined"
               inputRef={descriptionRef}
+              sx={{ flex: 1 }}
+            />
+            <TextField
+              type="date"
+              fullWidth
+              variant="outlined"
+              inputRef={dateRef}
               sx={{ flex: 1 }}
             />
             <FormControl fullWidth sx={{ flex: 1 }}>
