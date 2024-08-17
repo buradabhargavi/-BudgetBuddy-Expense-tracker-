@@ -65,29 +65,31 @@ function MainNav() {
           Your profile is incomplete. <Link to="/profile">Click here</Link> to
           update.
         </Typography>
-        <Box>
-          <Tooltip
-            title={
-              showTooltip
-                ? "Dark mode will be active if your expenses are more than 10k"
-                : "Dark mode is " + (isDarkMode ? "enabled" : "disabled")
-            }
-            arrow
-          >
-            <span>
-              <Button disabled={!isPremium} onClick={handleDarkModeToggle}>
-                {isDarkMode ? (
-                  <Brightness7Icon sx={{ color: "white" }} />
-                ) : (
-                  <DarkModeIcon sx={{ color: "black" }} />
-                )}
-              </Button>
-            </span>
-          </Tooltip>
+        <Box sx={{ display: "flex", flexDirection: "row" }}>
+          <Box>
+            <Tooltip
+              title={
+                showTooltip
+                  ? "Dark mode will be active if your expenses are more than 10k"
+                  : "Dark mode is " + (isDarkMode ? "enabled" : "disabled")
+              }
+              arrow
+            >
+              <span>
+                <Button disabled={!isPremium} onClick={handleDarkModeToggle}>
+                  {isDarkMode ? (
+                    <Brightness7Icon sx={{ color: "white" }} />
+                  ) : (
+                    <DarkModeIcon sx={{ color: "black" }} />
+                  )}
+                </Button>
+              </span>
+            </Tooltip>
+          </Box>
+          <Button variant="contained" color="secondary" onClick={LogoutHandler}>
+            LogOut
+          </Button>
         </Box>
-        <Button variant="contained" color="secondary" onClick={LogoutHandler}>
-          LogOut
-        </Button>
       </Box>
     </>
   );
