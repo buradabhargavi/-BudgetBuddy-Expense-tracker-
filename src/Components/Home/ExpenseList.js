@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditExpenseForm from "./EditExpenseForm";
+import { emptyExpense } from "../../assets/Images";
 import {
   fetchExpenses,
   updateExpense,
@@ -21,6 +22,8 @@ import {
 const ExpenseList = () => {
   const dispatch = useDispatch();
   const { expenses, isLoading, error } = useSelector((state) => state.expenses);
+  const { isDarkMode } = useSelector((state) => state.UI);
+
   const userId = useSelector((state) => state.auth.user?.split("@")[0] || "");
 
   const [open, setOpen] = useState(false);
@@ -64,20 +67,36 @@ const ExpenseList = () => {
   return (
     <Box
       sx={{
-        margin: "auto",
+        marginTop: "30px",
         padding: 2,
         borderRadius: 1,
-        boxShadow: 3,
+        color: isDarkMode ? "#FFFFFF" : "#333",
+        background: isDarkMode ? "#333" : "#FFFFFF",
       }}
     >
       <Typography variant="h4" gutterBottom>
         Expense List
       </Typography>
-      <Paper sx={{ padding: 2 }}>
-        {expenses.length === 0 ? (
-          <Typography variant="h6" align="center">
-            No expenses yet. You can add expenses by clicking "Add".
-          </Typography>
+      <Paper
+        sx={{
+          padding: 2,
+          color: isDarkMode ? "#FFFFFF" : "#333",
+          background: isDarkMode ? "#333" : "#FFFFFF",
+        }}
+      >
+        {(expenses && expenses.length === 0) || !expenses ? (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <img src={emptyExpense} alt="No expenses added"></img>
+            <Typography variant="h6" align="center">
+              No expenses yet. You can add expenses by clicking "Add Expense".
+            </Typography>
+          </Box>
         ) : (
           <List>
             {expenses.map((expense) => (

@@ -1,6 +1,6 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useRef } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function SignUp() {
   const nameRef = useRef();
@@ -50,7 +50,9 @@ function SignUp() {
         gap: "30px",
       }}
     >
-      <Typography variant="h4">Sign Up</Typography>
+      <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+        SIGN UP{" "}
+      </Typography>
 
       <form
         onSubmit={handleSubmit}
@@ -58,7 +60,6 @@ function SignUp() {
           display: "flex",
           flexDirection: "column",
           gap: "20px",
-          width: "25%",
         }}
       >
         <TextField
@@ -99,7 +100,9 @@ function SignUp() {
       </form>
       <Box sx={{ display: "flex", gap: "10px" }}>
         <Typography>Already have an account?</Typography>
-        <NavLink to="/signin">Login</NavLink>
+        <Link to="/signin" style={{ textDecoration: "none" }}>
+          Login
+        </Link>
       </Box>
     </Box>
   );

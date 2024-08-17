@@ -36,6 +36,7 @@ export const createExpense = createAsyncThunk(
     );
     if (!response.ok) throw new Error("Failed to submit expense data");
     const result = await response.json();
+    console.log(result);
     return { id: result.name, ...expenseData };
   }
 );

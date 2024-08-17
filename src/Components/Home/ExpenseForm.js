@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 import {
   Box,
@@ -18,6 +18,7 @@ function ExpenseForm() {
   const descriptionRef = useRef();
   const [selectedCategory, setSelectedCategory] = useState("Other");
   const [showExpense, setShowExpense] = useState(false);
+  const { isDarkMode } = useSelector((state) => state.UI);
 
   const dispatch = useDispatch();
 
@@ -46,6 +47,7 @@ function ExpenseForm() {
       expenseDescription: enteredDescription,
       expenseCategory: selectedCategory,
     };
+
     dispatch(createExpense({ userId, expenseData }));
 
     priceRef.current.value = "";
@@ -56,32 +58,39 @@ function ExpenseForm() {
   return (
     <Box
       sx={{
-        maxWidth: "100%",
-        margin: "auto",
-        padding: 2,
         borderRadius: 1,
+        padding: 2,
+        display: "flex",
+        color: isDarkMode ? "#FFFFFF" : "#333",
+        background: isDarkMode ? "#333" : "#FFFFFF",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        margin: "auto",
         boxShadow: 3,
       }}
     >
       <Typography variant="h4" gutterBottom>
         Add Your Expense Here
       </Typography>
-      <Button
-        onClick={toggleAddExpense}
-        variant="contained"
-        color="secondary"
-        sx={{ marginBottom: 2 }}
-      >
-        {showExpense ? "Hide Form" : "Add Expense"}
-      </Button>
+      {!showExpense && (
+        <Button
+          onClick={toggleAddExpense}
+          variant="contained"
+          color="secondary"
+          sx={{ marginBottom: 2 }}
+        >
+          Add Expense
+        </Button>
+      )}
       {showExpense && (
         <form onSubmit={handleSubmit}>
           <Box
             sx={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: "column",
+              justifyContent: "space-between",
               gap: 2,
-              flexWrap: "wrap",
             }}
           >
             <TextField
@@ -118,19 +127,11 @@ function ExpenseForm() {
               sx={{
                 display: "flex",
                 flexDirection: "row",
-                gap: 2,
-                flexWrap: "wrap",
+                justifyContent: "space-between",
+
                 mt: 2,
               }}
             >
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                sx={{ flex: 0.3 }}
-              >
-                {"Submit"}
-              </Button>
               <Button
                 type="button"
                 variant="outlined"
@@ -139,6 +140,14 @@ function ExpenseForm() {
                 sx={{ flex: 0.3 }}
               >
                 Cancel
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                sx={{ flex: 0.3 }}
+              >
+                Submit
               </Button>
             </Box>
           </Box>

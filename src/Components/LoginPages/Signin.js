@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { Box, TextField, Button, Typography } from "@mui/material";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { authActions } from "../../ReduxStore/AuthSlice";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -16,7 +16,7 @@ function Signin() {
     e.preventDefault();
     const email = userEmailref.current.value;
     const password = userPasswordref.current.value;
-    console.log(email, password);
+    //   console.log(email, password);
 
     try {
       const response = await fetch(
@@ -62,15 +62,15 @@ function Signin() {
         height: "100vh",
       }}
     >
-      <Typography variant="h4">User login</Typography>
+      <Typography variant="h4" sx={{ fontWeight: "Bold" }}>
+        USER LOGIN
+      </Typography>
       <form
         onSubmit={handleSubmit}
         style={{
           display: "flex",
-
           flexDirection: "column",
           gap: "20px",
-          width: "25%",
         }}
       >
         <TextField
@@ -89,17 +89,28 @@ function Signin() {
           placeholder="Enter your password"
           required
         ></TextField>
+        <Typography>
+          <Link
+            to="/forgotPassword"
+            style={{
+              textDecoration: "none",
+              justifyContent: "flex-end",
+              marginTop: "-10px",
+            }}
+          >
+            forgot password?
+          </Link>
+        </Typography>
         <Button variant="contained" type="submit">
           Login
         </Button>
       </form>
-      <Box sx={{ display: "flex", gap: "20px" }}>
+      <Box>
         <Typography>
-          new user?
-          <NavLink to={"/signup"}>create an account</NavLink>
-        </Typography>
-        <Typography>
-          <NavLink to="/forgotPassword">forgot password?</NavLink>
+          New User?
+          <Link to={"/signup"} style={{ textDecoration: "none" }}>
+            create an account
+          </Link>
         </Typography>
       </Box>
     </Box>
