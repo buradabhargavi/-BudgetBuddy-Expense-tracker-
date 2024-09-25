@@ -1,17 +1,8 @@
 import React, { useState, useEffect } from "react";
-import {
-  List,
-  ListItem,
-  Typography,
-  Divider,
-  Box,
-  Paper,
-  Button,
-} from "@mui/material";
+import { List, Typography, Box, Paper } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import EditExpenseForm from "./EditExpenseForm";
+import ExpenseListItem from "./ExpenseListItem";
 import { emptyExpense } from "../../assets/Images";
 import {
   fetchExpenses,
@@ -92,7 +83,7 @@ const ExpenseList = () => {
               alignItems: "center",
             }}
           >
-            <img src={emptyExpense} alt="No expenses added"></img>
+            <img src={emptyExpense} alt="No expenses added" />
             <Typography variant="h6" align="center">
               No expenses yet. You can add expenses by clicking "Add Expense".
             </Typography>
@@ -100,48 +91,12 @@ const ExpenseList = () => {
         ) : (
           <List>
             {expenses.map((expense) => (
-              <React.Fragment key={expense.id}>
-                <ListItem
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    padding: 2,
-                  }}
-                >
-                  <Typography variant="h6" sx={{ flex: 1 }}>
-                    {expense.expensePrice} Rupees
-                  </Typography>
-                  <Typography variant="h6" sx={{ flex: 1 }}>
-                    {expense.expenseDescription}
-                  </Typography>
-                  <Typography variant="h6" sx={{ flex: 1 }}>
-                    {expense.expenseCategory}
-                  </Typography>
-                  <Typography variant="h6" sx={{ flex: 1 }}>
-                    {expense.enteredDate}
-                  </Typography>
-                  <Box sx={{ display: "flex", gap: "10px", flex: 1 }}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      startIcon={<EditIcon />}
-                      onClick={() => handleEditClick(expense)}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      startIcon={<DeleteIcon />}
-                      onClick={() => handleDeleteClick(expense.id)}
-                    >
-                      Delete
-                    </Button>
-                  </Box>
-                </ListItem>
-                <Divider />
-              </React.Fragment>
+              <ExpenseListItem
+                key={expense.id}
+                expense={expense}
+                onEditClick={handleEditClick}
+                onDeleteClick={handleDeleteClick}
+              />
             ))}
           </List>
         )}
